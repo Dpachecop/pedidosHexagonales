@@ -23,6 +23,7 @@ public class PedidoController {
         this.mapper = mapper;
     }
 
+    // 1. CREAR
     @PostMapping
     public ResponseEntity<PedidoResponseDTO> crearPedido(@RequestBody PedidoRequestDTO dto) {
         Pedido nuevo = mapper.toDomain(dto);
@@ -30,11 +31,34 @@ public class PedidoController {
         return ResponseEntity.ok(mapper.toDTO(creado));
     }
 
+    // 2. LISTAR TODOS
     @GetMapping
     public ResponseEntity<List<PedidoResponseDTO>> listarPedidos() {
         List<PedidoResponseDTO> lista = pedidoService.listarPedidos().stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(lista);
+    }
+
+    // 3. OBTENER UNO SOLO (Para ver detalles si quisieras hacerlo por API)
+    @GetMapping("/{id}")
+    public ResponseEntity<PedidoResponseDTO> obtenerPedido(@PathVariable Long id) {
+        Pedido pedido = pedidoService.obtenerPedido(id);
+        return ResponseEntity.ok(mapper.toDTO(pedido));
+    }
+
+    // 4. ACTUALIZAR (Para editar pedidos en el futuro)
+    @PutMapping("/{id}")
+    public ResponseEntity<PedidoResponseDTO> actualizarPedido(@PathVariable Long id, @RequestBody PedidoRequestDTO dto) {
+        Pedido pedidoInfo = mapper.toDomain(dto);
+        Pedido actualizado = pedidoService.actualizarPedido(id, pedidoInfo);
+        return ResponseEntity.ok(mapper.toDTO(actualizado));
+    }
+
+    // 5. ELIMINAR (¡Esta es la que te faltaba!)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarPedido(@PathVariable Long id) {
+        pedidoService.eliminarPedido(id);
+        return ResponseEntity.noContent().build();
     }
 }
