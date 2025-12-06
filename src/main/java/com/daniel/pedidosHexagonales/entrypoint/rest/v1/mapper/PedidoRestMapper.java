@@ -27,7 +27,17 @@ public class PedidoRestMapper {
         dto.setFecha(domain.getFecha());
         dto.setEstado(domain.getEstado());
         dto.setCliente(domain.getCliente());
-        // Calculo simple para mostrar
+
+        // --- NUEVOS CAMPOS ---
+        dto.setProveedor(domain.getProveedor());
+        dto.setValor(domain.getValor());
+        dto.setPropina(domain.getPropina());
+        dto.setPais(domain.getPais());
+        dto.setDepartamento(domain.getDepartamento());
+        dto.setCiudad(domain.getCiudad());
+        dto.setNomenclaturaVivienda(domain.getNomenclaturaVivienda());
+        // ---------------------
+
         double total = (domain.getValor() != null ? domain.getValor() : 0) +
                 (domain.getPropina() != null ? domain.getPropina() : 0);
         dto.setValorTotal(total);
